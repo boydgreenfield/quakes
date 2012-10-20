@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title>Current Global Earthquakes</title>
+    <!-- <link rel="stylesheet" href="css/main.css" type="text/css" /> -->
+    <script type="text/javascript" src="../scripts/d3.v2.js"></script>
+    <!-- <script type="text/javascript" src="https://raw.github.com/mbostock/d3/3.0/d3.js"></script> -->
+    <!-- <link rel="stylesheet" href="fonts/fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css" /> -->
+    <!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script> -->
+    <!-- // <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+<!-- <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34800589-1']);
+  _gaq.push(['_setDomainName', 'boydgreenfield.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script> -->
+    <style type="text/css">
+        #globe {
+          margin-left: auto;
+          margin-right: auto;
+          width: 650px;
+          pointer-events: all;
+        }
+
+        circle {
+            fill: #000;
+            fill-opacity: 0.0;
+            stroke: #A9B4C0;
+            stroke-width: 3;
+        }
+
+        path {
+            fill: #f00;
+            stroke: #fff;
+        }
+
+        path.quake {
+            fill: #f00;
+            stroke: #fff;
+            z-index: 2;
+        }
+
+        path.country {
+          fill: #CED3D8;
+          stroke: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="titling">
+    <h1>Current Global Earthquakes</h1>
+</div>
+
+<div id="main-window">
+    <div id="globe"></div>
+</div>
+
+<script type="text/javascript" src="scripts/quakes.js"></script>
+<script type="text/javascript">
+    var countriesJSON = "../data/worldcountries.geo.json";
+    var earthQuakesJSON = "../data/major_earthquakes_last_month.json";
+    drawGlobe("#globe", 600, 50, countriesJSON, earthQuakesJSON);
+
+</script>
+
+
+
+<!-- <script type="text/javascript">
+//
+// // First get the window height and width
+// var winHeight = jQuery(window).height();
+// var winWidth = jQuery(window).width();
+// var windowHash = jQuery(location).attr('hash');
+//
+// var xGridWidth = (0.75 * winWidth); // Get 80% dimension
+// var yGridWidth = (0.70 * winHeight); // Get 70% dimension
+//
+// var xCells = 50;
+// var yCells = 24;
+//
+// var xcellWidth = d3.round(xGridWidth / xCells);
+// var ycellWidth = d3.round(yGridWidth / yCells) - 1;
+//
+// var xWin = (xCells) * (xcellWidth);
+// var yWin = (yCells) * (ycellWidth);
+// if (yWin > yGridWidth) {
+//     yWin = yWin - (ycellWidth * 1.0);
+// }
+// var transTime = 1000;
+//
+//
+// var hash = jQuery(location).attr('hash');
+// var margin = 12;
+// data = initData((xCells + margin*2), (yCells + margin*2), (xcellWidth), (ycellWidth), hash, (-1 * xcellWidth * margin), (-1 * ycellWidth * margin));
+// drawGrid("#grid", data, xWin, yWin, xcellWidth, ycellWidth, transTime, "#start", "#stop", "#reset", "#random", "#counter", "#save", "#load", "#tweet");
+
+
+
+</script> -->
+
+
+</body>
+</html>
+
+<!--
+    Uses Font Awesome. Thanks for the great library!
+-->
