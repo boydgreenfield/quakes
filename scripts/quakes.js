@@ -204,14 +204,45 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON) {
 
     // Now load the earthquake data
     d3.json(earthQuakesJSON, function(collection) {
+        // var magnitudes = [];
+        // var mi = 0;
+        // features = collection.features;
+        // features.forEach(function(x) {
+        //    magnitudes[mi] = x.properties.mag;
+        //    mi += 1;
+        // });
+
         quakes = svg.selectAll("quakes")
             .data(collection.features)
-          .enter().append("svg:path")
+            .enter().append("svg:circle")
             .attr("class", "quake")
-            .attr("d", clip);
+            .attr("cx", function(d) {
+                return projection(d.geometry.coordinates)[0];
+            })
+            .attr("cy", function(d) {
+                return projection(d.geometry.coordinates)[1];
+            })
+            .attr("r", function(d) {
+                return d.properties.mag;
+            });
+
+        refresh();
+
+        // quakes = svg.selectAll("quakes")
+        //     .data(collection.features)
+        //   .enter().append("svg:path")
+        //     .attr("class", "quake")
+        //     .attr("d", clip)
+        //     // .attr("onmouseover", openURL(d.properties.url))
+        //     .style("stroke-width", function(d) {
+        //         return d.properties.mag;
+        //     });
     });
 
 
+    function openURL(url) {
+        console.log(url);
+    }
 
 
     d3.select(window)
@@ -251,18 +282,62 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON) {
     }
 
     function refresh(duration) {
-      //   if (duration) {
-      //       console.log("LoopTrue");
-      //       feature.transition().duration(duration).attr("d", clip);
-      //   } else {
-      //       console.log("LoopFalse");
-      //       console.log(feature.attr("d"));
-      //       feature.attr("d", clip);
-      //   }
-      //
-      // console.log("Refreshing!");
-      (duration ? feature.transition().duration(duration) : feature).attr("d", clip);
-      (duration ? quakes.transition().duration(duration) : quakes).attr("d", clip);
+        function updateQuake(d) {
+            var coords = [];
+            clipped = circle.clip(d);
+            if (clipped !== null) {
+                coords[0] = projection(clipped.geometry.coordinates)[0];
+                coords[1] = projection(clipped.geometry.coordinates)[1];
+                coords[2] = 1;
+            } else {
+                coords[0] = projection(d.geometry.coordinates)[0];
+                coords[1] = projection(d.geometry.coordinates)[1];
+                coords[2] = 0;
+            }
+            return coords;
+        }
+
+        if (duration) {
+            feature.transition().duration(duration).attr("d", clip);
+            quakes.transition().duration(duration).attr({
+                "cx": function(d) {
+                    return updateQuake(d)[0];
+                    // return projection(d.geometry.coordinates)[0];
+                },
+                "cy": function(d) {
+                    return updateQuake(d)[1];
+                    // return projection(d.geometry.coordinates)[1];
+                },
+                "r": function(d) {
+                    if (updateQuake(d)[2] === 1) {
+                        return d.properties.mag;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        } else {
+            feature.attr("d", clip);
+            quakes.attr({
+                "cx": function(d) {
+                    return updateQuake(d)[0];
+                    // return projection(d.geometry.coordinates)[0];
+                },
+                "cy": function(d) {
+                    return updateQuake(d)[1];
+                    // return projection(d.geometry.coordinates)[1];
+                },
+                "r": function(d) {
+                    if (updateQuake(d)[2] === 1) {
+                        return d.properties.mag;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        }
+      // (duration ? feature.transition().duration(duration) : feature).attr("d", clip);
+      // (duration ? quakes.transition().duration(duration) : quakes).attr("d", clip);
     }
 
     // Clips the feature according to the great circle, then converts it to a both
