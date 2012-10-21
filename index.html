@@ -30,11 +30,17 @@
           pointer-events: all;
         }
 
-        circle {
-            fill: #000;
+        .globe-outline {
+            fill: #0f0;
             fill-opacity: 0.0;
             stroke: #A9B4C0;
+/*            stroke: red;*/
             stroke-width: 3;
+        }
+
+        .quake {
+            fill: #f00;
+            stroke: #f00;
         }
 
         path {
@@ -68,7 +74,10 @@
 <script type="text/javascript">
     var countriesJSON = "../data/worldcountries.geo.json";
     var earthQuakesJSON = "../data/major_earthquakes_last_month.json";
-    drawGlobe("#globe", 600, 50, countriesJSON, earthQuakesJSON);
+    var windowDim = 600;
+    var paddingDim = 50;
+    var id = "#globe";
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON);
 
 </script>
 
