@@ -8,184 +8,162 @@ $color1: #0F002E;
 $link-color: #2629A8;
 $background: #f7f5f0;
 
-// Specify size of projects box
-$title-height: 80px;
-$projs-width: 100%;
-
-// Other project parameters
-$small-margin: 10px;
-
-// Specify some default styles for mixins
-@mixin center($width, $height-pct, $max-height) {
-    @include center-h($width);
-    @include center-v($height-pct, $max-height);
+// Now the scss
+* {
+    margin: 0px;
+    padding: 0px;
 }
 
-@mixin center-h($width) {
-    margin-left: auto;
-    margin-right: auto;
-    width: $width;
-}
-
-@mixin center-v($height-pct, $max-height) {
-    $center-height: $height-pct * $max-height;
-    margin-top: ($max-height - $center-height) / 2;
-    margin-bottom: ($max-height - $center-height) / 2;
-    height: ($height-pct * $max-height);
-}
-
-@mixin no-margins {
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-}
-
-@mixin small-margins {
-    margin-left: $small-margin;
-    margin-right: $small-margin;
-    margin-top: $small-margin;
-    margin-bottom: $small-margin;
-}
-
-@mixin rounded-corners($radius) {
-    -moz-border-radius: $radius;
-    border-radius: $radius;
-}
-
-@mixin controls {
-    align: right;
-}
-
-
-// Override annoying webkit behavior
-// Specify distinct page areas -- note this is mostly positionin
 body {
-    background-color: $background;
+    height: 100%;
+    background-color: none;
 }
 
 a {
-    color: $black;
+    color:blue;
     text-decoration: none;
 }
 
-p {
-    @include no-margins;
+#main-window {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 80px;
+    float: left;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
-body {
-    @include no-margins;
+#globe {
+    margin-left: 0px;
+    margin-right: auto;
+    float: left;
+    pointer-events: all;
+/*          background-color: #ffee00;*/
+}
+#resume {
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    width: 60px;
+    height: 40px;
+    z-index: 2;
+    background-image: url(../images/svg_pauseplay.svg);
+    background-repeat: no-repeat;
 }
 
-h1 {
-    @include no-margins;
+.resume-stopped {
+/*            background-color: red;*/
 }
 
-h2 {
-    @include no-margins;
+.resume-playing {
+/*            background-color: green;*/
+}
+
+#description {
+    margin-left: 0px;
+    padding-top: 25px;
+    padding-left: 25px;
+    float: left;
+    width: 500px;
+    font-family: lato, serif;
 }
 
 #titling {
-    @include center-h(75%);
-    font-family: 'OpenSans';
-    height: 12%;
-    position: relative;
+    margin-top: 15px;
+    float: top;
+    font-size: 20pt;
 }
 
-#titling h1 {
+#main-text {
+    font-size: 12pt;
+    float: bottom;
+}
+
+#main-text h2 {
+    font-size: 16pt;
+    margin-top: 18px;
+    margin-bottom: 30px;
+}
+
+#main-text p {
+    padding-top: 10px;
+    font-style: italic;
+}
+
+#data-text {
+    font-size: 12pt;
+}
+
+#current-quake {
+    margin-top: 30px;
+    display: block;
+    height: 40px;
+}
+
+#current-quake-time {
+    margin-left: 20px;
+}
+
+
+#key {
+    margin-top: 50px;
+    width: 400px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+}
+
+#key h2 {
+    font-size: 14pt;
+    text-align: center;
+    margin: 0px;
+    padding-top: 10px;
+}
+
+#key p {
+    margin: 0px;
+    font-size: 9pt;
+    color: gray;
+}
+
+.globe-outline {
+    fill: #fff;
+    fill-opacity: 1.0;
+    stroke: #A9B4C0;
+//    stroke: red;
+    stroke-width: 3;
+}
+
+.quake {
+//    fill: #f00;
+//    stroke: #f00;
+}
+
+path {
+    fill: #f00;
+    stroke: #fff;
+}
+
+path.quake {
+    fill: #f00;
+    stroke: #f00;
+    z-index: 2;
+}
+
+path.country {
+    fill: #CED3D8;
+    stroke: #fff;
+}
+
+footer {
+    color: #c9c9c9;
+    font-family: lato, serif;
+    font-size: 9pt;
     position: absolute;
     bottom: 10px;
-}
-
-#main-window {
-    @include center-h(75%);
-    height: 70%;
-    padding-bottom: 25px;
-}
-
-#grid {
-    height: 70%;
-}
-
-#counter {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    text-align: right;
-    right: 5px;
-    top: 4px;
-    z-index: 2;
     display: block;
-    font: normal 8px monospace;
-    color: $medium-gray;
-}
-
-#bottom-panel {
-    height: 18%;
-    @include center-h(75%);
-    overflow-y: hidden;
-    z-index: 2;
-    font-family: 'OpenSans';
-}
-
-#about {
-    margin-left: 0%;
-    font-size: 11px;
-//    margin-top: 4px;
-//    margin-top: 0.6%;
-//    padding-top: 0.3%;
-//    display: inline;
-}
-
-#about a {
-    color: $link-color;
-}
-
-#controls {
-//    margin-top: 4px;
-//    margin-top: 0.6%;
-//    padding-top: 0.3%;
-//    width: 35%;
-    margin-left: 2%;
-    margin-right: 1%;
-    float: right;
-    padding-right: 1%;
-    padding-bottom: 0.3%;
-    padding-left: 0.3%;
-    border-left: 1px solid $medium-gray;
-}
-
-#controling {
-    font-size: 14px;
-}
-
-#controls p {
-    display: inline;
-    padding-left: 10px;
-}
-
-#sharing {
-    font-size: 14px;
-    padding-top: 5%;
-    text-align: right;
-}
-
-#sharing p {
-    padding-right: 9px;
-}
-
-#sharing a:link {
-    color: none;
-}
-
-#sharing a:visited {
-    color: none;
-}
-
-#sharing a:active {
-    color: none;
+    text-align: center;
+    width: 100%;
+    color: gray;
 }

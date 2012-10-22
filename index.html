@@ -3,6 +3,10 @@
     <title>Current Global Earthquakes</title>
     <!-- <link rel="stylesheet" href="css/main.css" type="text/css" /> -->
     <script type="text/javascript" src="../scripts/d3.v2.js"></script>
+    <script src="http://use.edgefonts.net/lato.js"></script>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <!-- <script src="http://use.edgefonts.net/wallpoet:n4.js"></script>
+    <script src="http://use.edgefonts.net/ubuntu:n3,i3,n4,i4,n5,i5,n7,i7.js"></script> -->
     <!-- <script type="text/javascript" src="https://raw.github.com/mbostock/d3/3.0/d3.js"></script> -->
     <!-- <link rel="stylesheet" href="fonts/fonts.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.css" type="text/css" /> -->
@@ -22,52 +26,33 @@
   })();
 
 </script> -->
-    <style type="text/css">
-        #globe {
-          margin-left: auto;
-          margin-right: auto;
-          width: 650px;
-          pointer-events: all;
-        }
-
-        .globe-outline {
-            fill: #0f0;
-            fill-opacity: 0.0;
-            stroke: #A9B4C0;
-/*            stroke: red;*/
-            stroke-width: 3;
-        }
-
-        .quake {
-            fill: #f00;
-            stroke: #f00;
-        }
-
-        path {
-            fill: #f00;
-            stroke: #fff;
-        }
-
-        path.quake {
-            fill: #f00;
-            stroke: #f00;
-            z-index: 2;
-        }
-
-        path.country {
-          fill: #CED3D8;
-          stroke: #fff;
-        }
-    </style>
 </head>
 <body>
 
-<div id="titling">
+<!-- <div id="titling">
     <h1>Current Global Earthquakes</h1>
-</div>
+</div> -->
 
 <div id="main-window">
     <div id="globe"></div>
+    <div id="resume"></div>
+    <div id="description">
+        <div id="titling"><h1>Major Earthquakes from the Past 7 Days</h1></div>
+        <div id="main-text">
+            <h2>Overview of all major (M4.5+) and other significant earthquakes from the past week.</h2>
+            <p id="data-text">
+                Made with <a href="http://d3js.org/" target="_blank">D3.js</a>. All data from the
+                <a href="http://earthquake.usgs.gov/" target="_blank">USGS Earth Quake Hazards Program</a>.
+                Includes all earthquakes with with a magnitude greater than or equal to 4.5 on the Richter scale (M4.5+),
+                as well as other earthquakes deemed significant by the USGS. Earthquake descriptions from
+                <a href="http://earthquake.usgs.gov/earthquakes/eqarchives/year/eqstats.php" target="_blank">USGS</a> and
+                <a href="http://http://en.wikipedia.org/wiki/Richter_magnitude_scale" target="_blank">Wikipedia</a>.
+                Data current as of <span id="load-time">(Data loading...)</span>
+            </p>
+            <a id="current-quake" href="Javascript: void(0);" target="_blank">Rollover an earthquake for details.</a>
+        </div>
+        <div id="key"><h2>Earthquake Magnitude</h2><p id="key-place"></p><em><p id="key-text">Rollover for details</p></em></div>
+    </div>
 </div>
 
 <script type="text/javascript" src="scripts/quakes.js"></script>
@@ -77,8 +62,28 @@
     var windowDim = 600;
     var paddingDim = 50;
     var id = "#globe";
-    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON);
+    var resumeId = "#resume";
+    var keyId = "#key-place";
+    var quakeTextId = "#current-quake";
+    var quakeLinkId = "#current-quake-link";
+    var loadTimeId = "#load-time";
 
+    var keyTextId = "#key-text"
+    var keyTextArray = [
+                    "Rollover for details",
+                    "<2.0 - Microearthquake, rarely felt, millions annually",
+                    "2.0-2.9 - Minor earthquake, weak shaking may be felt near the epicenter, 1.3M annually",
+                    "3.0-3.9 - Minor earthquake, felt tens of kilometers from the epicenter, 130,000 annually",
+                    "4.0-4.9 - Light earthquake, noticeable indoor shaking, but none to slight damage, 10,000-15,000 annually",
+                    "5.0-5.9 - Moderate earthquake, moderate to major damage to poorly constructed buildings, 1,000-1,500 annually",
+                    "6.0-6.9 - Strong earthquake, damage to many to all buildings, felt for hundreds of kilometers, 100-150 annually",
+                    "7.0-7.9 - Major earthquake, major damage over large areas, including significant building collapses, 10-20 annually",
+                    "8.0-8.9 - Great earthquake, major damage over very large areas, with very strong shaking for hundreds of kilometers, approximately 1 per year",
+                    "9.0+ - Great earthquake, massive destruction, 1 estimated every 5 to 50 years"
+                    ];
+
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
+                resumeId, keyId, quakeTextId, quakeLinkId, loadTimeId, keyTextId, keyTextArray);
 </script>
 
 
@@ -117,7 +122,11 @@
 </script> -->
 
 
+<footer>
+    <p>&#169 2012 Boyd Greenfield</p>
+</footer>
 </body>
+
 </html>
 
 <!--
