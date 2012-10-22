@@ -1,12 +1,22 @@
-// Specify project colors
+// Specify quick color shorthands
 $black: #000000;
 $white: #ffffff;
 $light-gray: #E0E0E0;
 $medium-gray: #C9C9C9;
 $darker-gray: #A0A0A0;
-$color1: #0F002E;
-$link-color: #2629A8;
-$background: #f7f5f0;
+
+// Functional colors
+$background: #f9f6f5;
+$text-color: #2A281B;
+$text-color-light: #A0A0A0;
+$text-color-medium: #656565;
+$link-color: #0F5272;
+$globe-border: #A9B4C0;
+//$arc-border: #EBEFF3;
+$arc-border: #C2CDD8;
+
+//$link-color: #1C4E66;
+
 
 // Now the scss
 * {
@@ -16,11 +26,11 @@ $background: #f7f5f0;
 
 body {
     height: 100%;
-    background-color: none;
+    background-color: $background;
 }
 
 a {
-    color:blue;
+    color: $link-color;
     text-decoration: none;
 }
 
@@ -39,8 +49,23 @@ a {
     margin-right: auto;
     float: left;
     pointer-events: all;
-/*          background-color: #ffee00;*/
+    background-color: $background;
 }
+
+.globe-outline {
+    fill: $background;
+    fill-opacity: 1.0;
+    stroke: $globe-border;
+//    stroke: red;
+    stroke-width: 3;
+}
+
+.bounding-arc {
+    stroke: none;
+    fill: $arc-border;
+//    stroke-width: 3;
+}
+
 #resume {
     position: absolute;
     top: 35px;
@@ -48,16 +73,16 @@ a {
     width: 60px;
     height: 40px;
     z-index: 2;
-    background-image: url(../images/svg_pauseplay.svg);
-    background-repeat: no-repeat;
 }
 
 .resume-stopped {
-/*            background-color: red;*/
+    background-image: url(../images/svg_playlt.svg);
+    background-repeat: no-repeat;
 }
 
 .resume-playing {
-/*            background-color: green;*/
+    background-image: url(../images/svg_pauselt.svg);
+    background-repeat: no-repeat;
 }
 
 #description {
@@ -83,31 +108,64 @@ a {
 #main-text h2 {
     font-size: 16pt;
     margin-top: 18px;
-    margin-bottom: 30px;
-}
-
-#main-text p {
-    padding-top: 10px;
-    font-style: italic;
+    margin-bottom: 15px;
 }
 
 #data-text {
-    font-size: 12pt;
+    font-size: 11pt;
+//    padding-top: 10px;
+    margin-bottom: 25px;
+}
+
+#rollover {
+    width: 500px;
+    height: 60px;
+}
+
+#rollover p {
+//    font-style: normal;
+}
+
+#sample-quake {
+    margin-top: 20px;
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+//    background-color: green;
+}
+
+.sample-quake {
+//    fill: #C9C9C9;
+    stroke: #A0A0A0;
+    stroke-width: 2;
+}
+
+.sample-quake-text {
+//    font-style: italic;
+    color: $text-color-medium;
+}
+
+.true-quake-text {
+//    font-style: normal;
+    // Optional
 }
 
 #current-quake {
-    margin-top: 30px;
     display: block;
-    height: 40px;
+    margin-top: 20px;
+    padding-top: 6px;
+    padding-left: 8px;
+//    background-color: red;
+    float: left;
+    height: 50px;
+    width: 400px;
 }
-
-#current-quake-time {
-    margin-left: 20px;
-}
-
 
 #key {
-    margin-top: 50px;
+    display: block;
+    margin-top: 45px;
+//    padding-top: 30px;
     width: 400px;
     margin-left: 50px;
     margin-right: 50px;
@@ -115,24 +173,16 @@ a {
 }
 
 #key h2 {
-    font-size: 14pt;
-    text-align: center;
-    margin: 0px;
-    padding-top: 10px;
+//    font-size: 14pt;
+//    text-align: center;
+//    margin: 0px;
+//    padding-top: 10px;
 }
 
 #key p {
     margin: 0px;
     font-size: 9pt;
-    color: gray;
-}
-
-.globe-outline {
-    fill: #fff;
-    fill-opacity: 1.0;
-    stroke: #A9B4C0;
-//    stroke: red;
-    stroke-width: 3;
+    color: $text-color-light;
 }
 
 .quake {
@@ -157,7 +207,7 @@ path.country {
 }
 
 footer {
-    color: #c9c9c9;
+    color: $text-color-light;
     font-family: lato, serif;
     font-size: 9pt;
     position: absolute;
@@ -165,5 +215,4 @@ footer {
     display: block;
     text-align: center;
     width: 100%;
-    color: gray;
 }

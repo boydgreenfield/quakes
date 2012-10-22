@@ -4,10 +4,10 @@
 
 body {
   height: 100%;
-  background-color: none; }
+  background-color: #f9f6f5; }
 
 a {
-  color: blue;
+  color: #0f5272;
   text-decoration: none; }
 
 #main-window {
@@ -24,7 +24,17 @@ a {
   margin-right: auto;
   float: left;
   pointer-events: all;
-  /*          background-color: #ffee00;*/ }
+  background-color: #f9f6f5; }
+
+.globe-outline {
+  fill: #f9f6f5;
+  fill-opacity: 1.0;
+  stroke: #a9b4c0;
+  stroke-width: 3; }
+
+.bounding-arc {
+  stroke: none;
+  fill: #c2cdd8; }
 
 #resume {
   position: absolute;
@@ -32,15 +42,15 @@ a {
   left: 35px;
   width: 60px;
   height: 40px;
-  z-index: 2;
-  background-image: url(../images/svg_pauseplay.svg);
-  background-repeat: no-repeat; }
+  z-index: 2; }
 
 .resume-stopped {
-  /*            background-color: red;*/ }
+  background-image: url(../images/svg_playlt.svg);
+  background-repeat: no-repeat; }
 
 .resume-playing {
-  /*            background-color: green;*/ }
+  background-image: url(../images/svg_pauselt.svg);
+  background-repeat: no-repeat; }
 
 #description {
   margin-left: 0px;
@@ -62,46 +72,51 @@ a {
 #main-text h2 {
   font-size: 16pt;
   margin-top: 18px;
-  margin-bottom: 30px; }
-
-#main-text p {
-  padding-top: 10px;
-  font-style: italic; }
+  margin-bottom: 15px; }
 
 #data-text {
-  font-size: 12pt; }
+  font-size: 11pt;
+  margin-bottom: 25px; }
+
+#rollover {
+  width: 500px;
+  height: 60px; }
+
+#sample-quake {
+  margin-top: 20px;
+  display: block;
+  float: left;
+  width: 50px;
+  height: 50px; }
+
+.sample-quake {
+  stroke: #A0A0A0;
+  stroke-width: 2; }
+
+.sample-quake-text {
+  color: #656565; }
 
 #current-quake {
-  margin-top: 30px;
   display: block;
-  height: 40px; }
-
-#current-quake-time {
-  margin-left: 20px; }
+  margin-top: 20px;
+  padding-top: 6px;
+  padding-left: 8px;
+  float: left;
+  height: 50px;
+  width: 400px; }
 
 #key {
-  margin-top: 50px;
+  display: block;
+  margin-top: 45px;
   width: 400px;
   margin-left: 50px;
   margin-right: 50px;
   text-align: center; }
 
-#key h2 {
-  font-size: 14pt;
-  text-align: center;
-  margin: 0px;
-  padding-top: 10px; }
-
 #key p {
   margin: 0px;
   font-size: 9pt;
-  color: gray; }
-
-.globe-outline {
-  fill: #fff;
-  fill-opacity: 1.0;
-  stroke: #A9B4C0;
-  stroke-width: 3; }
+  color: #a0a0a0; }
 
 path {
   fill: #f00;
@@ -117,12 +132,11 @@ path.country {
   stroke: #fff; }
 
 footer {
-  color: #c9c9c9;
+  color: #a0a0a0;
   font-family: lato, serif;
   font-size: 9pt;
   position: absolute;
   bottom: 10px;
   display: block;
   text-align: center;
-  width: 100%;
-  color: gray; }
+  width: 100%; }

@@ -10,8 +10,6 @@
     <!-- <script type="text/javascript" src="https://raw.github.com/mbostock/d3/3.0/d3.js"></script> -->
     <!-- <link rel="stylesheet" href="fonts/fonts.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.css" type="text/css" /> -->
-    <!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script> -->
-    <!-- // <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
 <!-- <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -49,7 +47,12 @@
                 <a href="http://http://en.wikipedia.org/wiki/Richter_magnitude_scale" target="_blank">Wikipedia</a>.
                 Data current as of <span id="load-time">(Data loading...)</span>
             </p>
-            <a id="current-quake" href="Javascript: void(0);" target="_blank">Rollover an earthquake for details.</a>
+            <div id="rollover">
+                <div id="sample-quake"></div>
+                <a id="current-quake" href="Javascript: void(0);" target="_blank">
+                    <p class="sample-quake-text">Highlight an earthquake on the left for additional details and a link to the USGS information center.</p>
+                </a>
+            </div>
         </div>
         <div id="key"><h2>Earthquake Magnitude</h2><p id="key-place"></p><em><p id="key-text">Rollover for details</p></em></div>
     </div>
@@ -82,8 +85,16 @@
                     "9.0+ - Great earthquake, massive destruction, 1 estimated every 5 to 50 years"
                     ];
 
+    var arcWidth = -1;
+    var startColor = "#E6D97D";
+    var endColor = "#C93131";
+    // var highlightColor = "yellow";
+    var highlightColor = "#46422C";
+    var sampleQuakeId = "#sample-quake";
+
     drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
-                resumeId, keyId, quakeTextId, quakeLinkId, loadTimeId, keyTextId, keyTextArray);
+                resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
+                arcWidth, startColor, endColor, highlightColor);
 </script>
 
 

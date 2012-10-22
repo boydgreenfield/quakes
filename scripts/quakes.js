@@ -1,5 +1,6 @@
 function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
-                    resumeId, keyId, quakeTextId, quakeLinkId, loadTimeId, keyTextId, keyTextArray) {
+                    resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
+                    arcWidth, startColor, endColor, highlightColor) {
     var feature;
     var quakes;
     var stopRotating = false;
@@ -122,19 +123,12 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
       return path(circle.clip(d));
     }
 
-    function openURL(url) {
-        console.log(url);
-    }
-
     // First draw the key
     var key = d3.select(keyId).append("svg:svg")
         .attr("width", 400)
         .attr("height", 75);
 
     var keyData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    var startColor = "#E6D97D";
-    var endColor = "#C93131";
 
     var colorScale = d3.scale.linear()
         .domain([0, 10])
@@ -151,6 +145,10 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
         return (8.0 * Math.sqrt(d / Math.PI));
     }
 
+    function richterOpacity(d) {
+        return (1 - (1 - d * 0.1) / 2);
+    }
+
     var keyText = d3.select(keyTextId);
 
     key.selectAll("key")
@@ -164,11 +162,12 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
             return 30;
         })
         .attr("fill", richterColors)
+        .attr("opacity", richterOpacity)
         .attr("r", richterSize)
         .on("mouseover", function() {
             element = d3.select(this);
             element
-                .attr("stroke", "yellow")
+                .attr("stroke", highlightColor)
                 .attr("stroke-width", 2);
             textIndex = element.data()[0];
             keyText
@@ -200,7 +199,9 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
     // Now get the quake text
     var quakeText = d3.select(quakeTextId);
     var quakeLink = d3.select(quakeLinkId);
+    var sampleQuake = d3.select(sampleQuakeId);
     var loadTime = d3.select(loadTimeId);
+    var quakeSelected = false;
 
     // Now draw the globe
     var svg = d3.select(id).append("svg:svg")
@@ -242,17 +243,26 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
                         quakes.attr("stroke", "none");
                         element = d3.select(this);
                         element
-                            .attr("stroke", "yellow")
+                            .attr("stroke", highlightColor)
                             .attr("stroke-width", 2);
                         var quakeDate = new Date(d.properties.time * 1000);
                         quakeText
-                            .attr('href', d.properties.url)
+                            .attr("href", d.properties.url)
+                            .attr("class", "true-quake-text")
                             .text(d.properties.mag.toString() + "-magnitude earthquake " +
-                                    d.properties.place + " at " + quakeDate.toString() +
-                                    "      (click to open)");
+                                    d.properties.place + " at " + quakeDate.toString());
                         quakeLink
                             .attr('href', d.properties.url)
                             .text("  (Link)  ");
+
+                        var demoQuake = quakeSVG.selectAll("circle");
+
+                        demoQuake
+                          .attr("stroke", highlightColor)
+                          .attr("r", richterSize(d.properties.mag))
+                          .attr("opacity", richterOpacity(d.properties.mag))
+                          .attr("fill", richterColors(d.properties.mag));
+
                     })
                     .attr("class", "quake")
                     .attr("fill", function(d) {
@@ -269,9 +279,27 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
                     });
              refresh();
           });
+
+      // Add the blank quake outline
+      var quakeSVG = sampleQuake.append("svg")
+                        .attr("width", 50)
+                        .attr("height", 50);
+      quakeSVG
+        .selectAll("sample-quake")
+        .data([0])
+        .enter()
+        .append("circle")
+        .attr("r", 10)
+        .attr("cx", 25)
+        .attr("cy", 25)
+        .attr("fill", "#C9C9C9")
+        .attr("class", "sample-quake");
+
       // Finally update the data load time
+      var currentDate = new Date();
+      var format = d3.time.format("%A %B %e, %Y."); //  at %H:%M:%S
       loadTime
-        .text(Date().toString());
+        .text(format(currentDate));
     });
 
     // Timer before selection changes focus
@@ -301,36 +329,44 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
         .attr("class", "resume-playing")
         .on("click", function() {
             if (stopRotating) {
-                console.log("Resuming spin.");
                 stopRotating = false;
                 resume.attr("class", "resume-playing");
                 spin();
             } else {
-                console.log("Stopping spin.");
                 resume.attr("class", "resume-stopped");
                 stopRotating = true;
             }
         });
 
     // Now finally draw the right bounding arc
-     var arc = d3.svg.arc()
-        .startAngle(function(d) {return (Math.PI * 0.15);})
-        .endAngle(function(d) {return (Math.PI * 0.85);})
-        .innerRadius(function(d) {return 323;})
-        .outerRadius(function(d) {return 325;});
-        // .startAngle(function(d) { return d.x; })
-         // .endAngle(function(d) { return d.x + d.dx; })
-         // .innerRadius(function(d) { return Math.sqrt(d.y); })
-         // .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+    if (arcWidth !== 0) {
+        var outerR = 325;
+        var innerR;
+        if (arcWidth < 0) {
+            innerR = 0;
+        } else {
+            innerR = outerR - arcWidth;
+        }
+        var arc = d3.svg.arc()
+            .startAngle(function(d) {return (Math.PI * 0.15);})
+            .endAngle(function(d) {return (Math.PI * 0.85);})
+            .innerRadius(function(d) {return innerR;})
+            .outerRadius(function(d) {return outerR;});
+            // .startAngle(function(d) { return d.x; })
+             // .endAngle(function(d) { return d.x + d.dx; })
+             // .innerRadius(function(d) { return Math.sqrt(d.y); })
+             // .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-    svg.selectAll("bounding-arc")
-        .data([1])
-        .enter()
-        .insert("svg:path", "circle")
-        // .append("svg:path")
-        .attr("transform", ("translate(" + 325 + ", " + 325 + ")"))
-        .attr("class", "bounding-arc")
-        .attr("d", arc);
+        svg.selectAll("bounding-arc")
+            .data([1])
+            .enter()
+            .insert("svg:path", "circle")
+            // .append("svg:path")
+            .attr("transform", ("translate(" + 325 + ", " + 325 + ")"))
+            .attr("class", "bounding-arc")
+            .attr("d", arc);
+    }
+
 
 
 
