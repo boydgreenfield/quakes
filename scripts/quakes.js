@@ -235,7 +235,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .attr("d", clip);
                 
       function processQuakes(collection) {
-              function eqfeed_callback(data) {return data;}
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
@@ -287,9 +286,8 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
       if (useJSONP) {
           console.log("Using JSONP...");
           $.ajax({
-              url: earthQuakesJSON,
+              url: "http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp&minEventMagnitude=2.5&callback=processQuakes",
               dataType: 'jsonp',
-              jsonp: false,
               jsonpCallback: 'processQuakes',
               data: '',
               success: ''
