@@ -307,7 +307,8 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   dataType: 'jsonp',
                   jsonpCallback: 'multiHelper',
                   data: '',
-                  success: function() {
+                  success: function(data) {
+                      multiHelper(data);
                       completeAjaxRequests = completeAjaxRequests + 1;
                       console.log("completeAjaxRequests =", completeAjaxRequests);
                       if (completeAjaxRequests === (requestsToComplete)) {
