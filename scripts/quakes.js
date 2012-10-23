@@ -287,8 +287,14 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
       if (useAPI) {
           console.log("Using JSONP...");
           // Supports multiple URLs with JSONP
-          var qCXNs = [];
-          function multiHelper(data) {qCXNs = qCXNs.concat(data);}
+          var qCXNs = null;
+          function multiHelper(data) {
+              if (qCXNs === null) {
+                  qCXNs = data;
+              } else {
+                  qCXNs.features.concat(data.features);
+              }
+          }
 
           var requestsToComplete = earthQuakesJSON.length;
           var completeAjaxRequests = 0;
