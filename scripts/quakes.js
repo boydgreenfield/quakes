@@ -233,7 +233,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .append("svg:path")
           .attr("class", "country")
           .attr("d", clip);
-      function processQuakes(collection) {
+      d3.json(earthQuakesJSON, function(collection) {
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
@@ -280,23 +280,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     });
              loaded = true;
              refresh();
-          })
-
-      if (useJSONP) {
-          function eqfeed_callback(collection) {
-              console.log("Successfully downloaded USGS data.");
-              processQuakes(collection);
-          }
-          jQuery.ajax({
-              url: earthQuakesJSON,
-              dataType: 'jsonp',
-              data: '',
-              success: eqfeed_callback
           });
-      } else {
-          d3.json(earthQuakesJSON, processQuakes(collection));
-      }
-
 
       // Add the blank quake outline
       var quakeSVG = sampleQuake.append("svg")
@@ -401,3 +385,4 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     // });
 
 }
+​
