@@ -285,11 +285,11 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         
       if (useJSONP) {
           console.log("Using JSONP...");
-          var jsonpData = 0;
-          function eqfeed_callback(data) {jsonpData = data; console.log("Successfully downloaded USGS data!."); console.log(jsonpData);}
           $.ajax({
               url: earthQuakesJSON,
               dataType: 'jsonp',
+              jsonp: false,
+              jsonpCallback: 'processQuakes',
               data: '',
               success: ''
           });
