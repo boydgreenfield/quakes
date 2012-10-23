@@ -294,7 +294,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               url: earthQuakesJSON,
               dataType: 'jsonp',
               data: '',
-              success: eqfeed_callback
+              success: ''
           });
       } else {
           d3.json(earthQuakesJSON, processQuakes(collection));                    
