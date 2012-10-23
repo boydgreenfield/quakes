@@ -282,13 +282,14 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              loaded = true;
              refresh();
           }
+
+      function eqfeed_callback(collection) {
+          console.log("Successfully downloaded USGS data.");
+          processQuakes(collection);
+      }
       
         
       if (useJSONP) {
-          function eqfeed_callback(collection) {
-                processQuakes(collection);
-                console.log("Successfully downloaded USGS data.");
-          }
           jQuery.ajax({
               url: earthQuakesJSON,
               dataType: 'jsonp',
