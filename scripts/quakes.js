@@ -6,13 +6,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     var stopRotating = false;
     var loaded = false;
 
-    // Define function for JSONP callback (USGS monthly is configured this way)
-    function eqfeed_callback(collection) {
-          console.log("Successfully downloaded USGS data.");
-          processQuakes(collection);
-    }
-
-
     // Define origin and get ready to roll
     var origin = [-71.03, 25.37],
 //        origin = [-71.03, 42.37],
@@ -230,11 +223,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         .attr("cx", ((windowDim+paddingDim)/2))
         .attr("cy", ((windowDim+paddingDim)/2));
 
-    // Define the JSONP callback function before entering the d3.json scope
-    function eqfeed_callback(collection) {
-          console.log("Successfully downloaded USGS data.");
-          processQuakes(collection);
-    }
 
     // Load the GEOJSON data for the countries
     d3.json(countriesJSON, function(collection) {
@@ -296,13 +284,17 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           }
         
       if (useJSONP) {
-          jQuery.ajax({
+          console.log("Using JSONP...");
+          var jsonpData = 0;
+          function eqfeed_callback(data) {jsonpData = data; console.log("Successfully downloaded USGS data!."); console.log(jsonpData);}
+          $.ajax({
               url: earthQuakesJSON,
               dataType: 'jsonp',
               data: '',
-              success: eqfeed_callback
+              success: ''
           });
       } else {
+          console.log("Using JSON...");
           d3.json(earthQuakesJSON, processQuakes(collection));                    
       }
 
