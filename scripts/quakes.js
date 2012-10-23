@@ -298,7 +298,9 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   jsonpCallback: 'multiHelper',
                   data: '',
                   success: function() {
+                      console.log("EQI =", eqi);
                       if (eqi === (earthQuakesJSON.length - 1)) {
+                          console.log("processing...");
                           processQuakes(qCXNs);
                       }
                   }
