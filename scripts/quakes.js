@@ -286,16 +286,21 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         
       if (useAPI) {
           console.log("Using JSONP...");
-          $.ajax({
-              url: earthQuakesJSON,
-              dataType: 'jsonp',
-              jsonpCallback: 'processQuakes',
-              data: '',
-              success: processQuakes
-          });
+          // Supports multiple URLs with JSONP
+          for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
+              $.ajax({
+                  url: earthQuakesJSON[eqi],
+                  dataType: 'jsonp',
+                  jsonpCallback: 'processQuakes',
+                  data: '',
+                  success: processQuakes
+              });
+          }
+
       } else {
           console.log("Using JSON...");
-          d3.json(earthQuakesJSON, processQuakes(collection));                    
+          // Supports only a single URL with JSON
+          d3.json(earthQuakesJSON[0], processQuakes(collection));                    
       }
 
       // Add the blank quake outline
