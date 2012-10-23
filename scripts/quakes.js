@@ -291,7 +291,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               dataType: 'jsonp',
               jsonpCallback: 'processQuakes',
               data: '',
-              success: ''
+              success: processQuakes
           });
       } else {
           console.log("Using JSON...");
