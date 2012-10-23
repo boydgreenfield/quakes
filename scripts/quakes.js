@@ -6,6 +6,13 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     var stopRotating = false;
     var loaded = false;
 
+    // Define function for JSONP callback (USGS monthly is configured this way)
+    function eqfeed_callback(collection) {
+          console.log("Successfully downloaded USGS data.");
+          processQuakes(collection);
+    }
+
+
     // Define origin and get ready to roll
     var origin = [-71.03, 25.37],
 //        origin = [-71.03, 42.37],
