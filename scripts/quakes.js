@@ -288,6 +288,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           console.log("Using JSONP...");
           // Supports multiple URLs with JSONP
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
+              console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");
               $.ajax({
                   url: earthQuakesJSON[eqi],
                   dataType: 'jsonp',
