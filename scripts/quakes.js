@@ -280,7 +280,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     });
              loaded = true;
              refresh();
-          });
+          })
 
       if (useJSONP) {
           function eqfeed_callback(collection) {
