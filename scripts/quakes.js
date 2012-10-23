@@ -280,28 +280,34 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     .attr("r", function(d) {
                         return richterSize(d.properties.mag);
                     });
+             loaded = true;
              refresh();
           }
         
       if (useAPI) {
           console.log("Using JSONP...");
           // Supports multiple URLs with JSONP
+          var qCXNs = [];
+          function multiHelper(data) {qCXNs = qCXNs.concat(data);}
+
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
               console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");
               $.ajax({
                   url: earthQuakesJSON[eqi],
                   dataType: 'jsonp',
-                  jsonpCallback: 'processQuakes',
+                  jsonpCallback: 'multiHelper',
                   data: '',
-                  success: processQuakes
+                  success: function() {
+                      if (eqi === (earthQuakesJSON.length - 1)) {
+                          processQuakes(qCXNs);
+                      }
+                  }
               });
           }
-          loaded = true;
       } else {
           console.log("Using JSON...");
           // Supports only a single URL with JSON
           d3.json(earthQuakesJSON[0], processQuakes(collection));  
-          loaded = true;
       }
 
       // Add the blank quake outline
