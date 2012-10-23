@@ -1,4 +1,4 @@
-function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
+function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
     var feature;
@@ -283,10 +283,10 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              refresh();
           }
         
-      if (useJSONP) {
+      if (useAPI) {
           console.log("Using JSONP...");
           $.ajax({
-              url: "http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp&minEventMagnitude=2.5&callback=processQuakes",
+              url: earthQuakesJSON,
               dataType: 'jsonp',
               jsonpCallback: 'processQuakes',
               data: '',
