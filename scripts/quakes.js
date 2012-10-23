@@ -290,6 +290,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           var qCXNs = [];
           function multiHelper(data) {qCXNs = qCXNs.concat(data);}
 
+          var completeAjaxRequests = 0;
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
               console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");
               $.ajax({
@@ -298,8 +299,9 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   jsonpCallback: 'multiHelper',
                   data: '',
                   success: function() {
-                      console.log("EQI =", eqi);
-                      if (eqi === (earthQuakesJSON.length - 1)) {
+                      completeAjaxRequests = completeAjaxRequests + 1;
+                      console.log("completeAjaxRequests =", completeAjaxRequests);
+                      if (completeAjaxRequests === (earthQuakesJSON.length - 1)) {
                           console.log("processing...");
                           processQuakes(qCXNs);
                       }
