@@ -292,7 +292,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               if (qCXNs === null) {
                   qCXNs = data;
               } else {
-                  qCXNs.features.concat(data.features);
+                  qCXNs.features = qCXNs.features.concat(data.features);
               }
           }
 
