@@ -1,4 +1,4 @@
-function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
+function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
     var feature;
@@ -233,7 +233,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
           .append("svg:path")
           .attr("class", "country")
           .attr("d", clip);
-      d3.json(earthQuakesJSON, function(collection) {
+      function processQuakes(collection) {
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
@@ -281,6 +281,22 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
              loaded = true;
              refresh();
           });
+
+      if (useJSONP) {
+          function eqfeed_callback(collection) {
+              console.log("Successfully downloaded USGS data.");
+              processQuakes(collection);
+          }
+          jQuery.ajax({
+              url: earthQuakesJSON,
+              dataType: 'jsonp',
+              data: '',
+              success: eqfeed_callback
+          });
+      } else {
+          d3.json(earthQuakesJSON, processQuakes(collection));
+      }
+
 
       // Add the blank quake outline
       var quakeSVG = sampleQuake.append("svg")
