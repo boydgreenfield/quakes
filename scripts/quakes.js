@@ -233,7 +233,8 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .append("svg:path")
           .attr("class", "country")
           .attr("d", clip);
-      d3.json(earthQuakesJSON, function(collection) {
+        
+      function processQuakes(collection) {
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
@@ -280,7 +281,9 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     });
              loaded = true;
              refresh();
-          });
+          }
+      
+      d3.json(earthQuakesJSON, processQuakes(collection));
 
       // Add the blank quake outline
       var quakeSVG = sampleQuake.append("svg")
@@ -385,4 +388,3 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     // });
 
 }
-​
