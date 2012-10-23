@@ -1,4 +1,4 @@
-function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
+function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP, jsonpFunction,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
     var feature;
@@ -282,19 +282,13 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              loaded = true;
              refresh();
           }
-
-      function eqfeed_callback(collection) {
-          console.log("Successfully downloaded USGS data.");
-          processQuakes(collection);
-      }
-      
         
       if (useJSONP) {
           jQuery.ajax({
               url: earthQuakesJSON,
               dataType: 'jsonp',
               data: '',
-              success: ''
+              success: jsonpFunction
           });
       } else {
           d3.json(earthQuakesJSON, processQuakes(collection));                    
