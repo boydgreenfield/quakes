@@ -310,6 +310,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                       console.log("completeAjaxRequests =", completeAjaxRequests);
                       if (completeAjaxRequests === (requestsToComplete)) {
                           console.log("processing...");
+                          console.log(qCXNs);
                           processQuakes(qCXNs);
                       }
                   }
