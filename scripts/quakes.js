@@ -223,6 +223,11 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         .attr("cx", ((windowDim+paddingDim)/2))
         .attr("cy", ((windowDim+paddingDim)/2));
 
+    // Define the JSONP callback function before entering the d3.json scope
+    function eqfeed_callback(collection) {
+          console.log("Successfully downloaded USGS data.");
+          processQuakes(collection);
+    }
 
     // Load the GEOJSON data for the countries
     d3.json(countriesJSON, function(collection) {
@@ -288,7 +293,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               url: earthQuakesJSON,
               dataType: 'jsonp',
               data: '',
-              success: jsonpFunction
+              success: eqfeed_callback
           });
       } else {
           d3.json(earthQuakesJSON, processQuakes(collection));                    
