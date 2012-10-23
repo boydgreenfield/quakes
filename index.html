@@ -59,7 +59,7 @@
 <script type="text/javascript" src="scripts/quakes.js"></script>
 <script type="text/javascript">
     var countriesJSON = "data/worldcountries.geo.json";
-    // var earthQuakesJSON = "data/major_earthquakes_last_month.json";
+    // var earthQuakesJSON = ["data/major_earthquakes_last_month.json"];
     var windowDim = 600;
     var paddingDim = 50;
     var id = "#globe";
@@ -96,11 +96,11 @@
     var newDate = new Date(currentDate - dateDiff).valueOf();
     var minSig = 600;
     
-    var earthQuakesJSON = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" + 
+    var earthQuakesJSON = [("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" + 
                           "&minEventMagnitude=" + minMag.toPrecision(2) + 
                           "&minEventTime=" + newDate.toString() + 
                           "&minSignificance=" + minSig.toString() + 
-                          "&callback=processQuakes")
+                          "&callback=processQuakes")];
     
     drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                 resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
