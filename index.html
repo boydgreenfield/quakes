@@ -91,8 +91,13 @@
     var highlightColor = "#46422C";
     var sampleQuakeId = "#sample-quake";
     var useJSONP = true;
+    
+    function eqfeed_callback(collection) {
+          console.log("Successfully downloaded USGS data.");
+          processQuakes(collection);
+    }
 
-    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP, eqfeed_callback,
                 resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                 arcWidth, startColor, endColor, highlightColor);
 </script>
