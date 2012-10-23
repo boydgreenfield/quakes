@@ -1,4 +1,4 @@
-function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP, jsonpFunction,
+function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
     var feature;
