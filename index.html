@@ -59,8 +59,8 @@
 <script type="text/javascript" src="scripts/quakes.js"></script>
 <script type="text/javascript">
     var countriesJSON = "data/worldcountries.geo.json";
-    // var earthQuakesJSON = "http://earthquake.usgs.gov/earthquakes/feed/geojson/significant/week";
-    var earthQuakesJSON = "data/major_earthquakes_last_month.json";
+    var earthQuakesJSON = "http://earthquake.usgs.gov/earthquakes/feed/geojsonp/significant/month";
+    // var earthQuakesJSON = "data/major_earthquakes_last_month.json";
     var windowDim = 600;
     var paddingDim = 50;
     var id = "#globe";
@@ -90,8 +90,9 @@
     // var highlightColor = "yellow";
     var highlightColor = "#46422C";
     var sampleQuakeId = "#sample-quake";
+    var useJSONP = true;
 
-    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
                 resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                 arcWidth, startColor, endColor, highlightColor);
 </script>
