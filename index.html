@@ -59,7 +59,6 @@
 <script type="text/javascript" src="scripts/quakes.js"></script>
 <script type="text/javascript">
     var countriesJSON = "data/worldcountries.geo.json";
-    var earthQuakesJSON = "http://earthquake.usgs.gov/earthquakes/feed/geojsonp/significant/month";
     // var earthQuakesJSON = "data/major_earthquakes_last_month.json";
     var windowDim = 600;
     var paddingDim = 50;
@@ -90,9 +89,20 @@
     // var highlightColor = "yellow";
     var highlightColor = "#46422C";
     var sampleQuakeId = "#sample-quake";
-    var useJSONP = true;
+    var useAPI = true;
+    var minMag = 3.0;
+    var currentDate = new Date().valueOf();
+    var dateDiff = 1000 * 60 * 60 * 24 * 30; // 30 days
+    var newDate = new Date(currentDate - dateDiff).valueOf();
+    var minSig = 500;
     
-    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useJSONP,
+    var earthQuakeJSON = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" + 
+                          "&minEventMagnitude=" + minMag.toPrecision(2) + 
+                          "&minEventTime" + newDate.toString() + 
+                          "&minSignificance" + minSig.toString() + 
+                          "&callback=processQuakes")
+    
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                 resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                 arcWidth, startColor, endColor, highlightColor);
 </script>
