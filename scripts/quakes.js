@@ -235,6 +235,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .attr("d", clip);
                 
       function processQuakes(collection) {
+              console.log("Processing quakes...");
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
