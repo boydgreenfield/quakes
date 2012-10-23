@@ -280,7 +280,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     .attr("r", function(d) {
                         return richterSize(d.properties.mag);
                     });
-             loaded = true;
              refresh();
           }
         
@@ -297,11 +296,12 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   success: processQuakes
               });
           }
-
+          loaded = true;
       } else {
           console.log("Using JSON...");
           // Supports only a single URL with JSON
-          d3.json(earthQuakesJSON[0], processQuakes(collection));                    
+          d3.json(earthQuakesJSON[0], processQuakes(collection));  
+          loaded = true;
       }
 
       // Add the blank quake outline
