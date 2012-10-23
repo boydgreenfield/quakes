@@ -4,6 +4,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
     var feature;
     var quakes;
     var stopRotating = false;
+    var loaded = false;
 
     // Define origin and get ready to roll
     var origin = [-71.03, 25.37],
@@ -277,6 +278,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
                     .attr("r", function(d) {
                         return richterSize(d.properties.mag);
                     });
+             loaded = true;
              refresh();
           });
 
@@ -311,7 +313,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
             var t = Date.now() - t0;
 
             // Don't refresh until everything is rendered... ah ha
-            if (t > 500) {
+            if (t > 500 && loaded) {
                 var o = [origin[0] + (t - 500) * velocity[0], origin[1] + (t - 500) * velocity[1]];
                 projection.origin(o);
                 circle.origin(o);
