@@ -340,7 +340,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
 
       // Finally update the data load time
       var currentDate = new Date();
-      var format = d3.time.format("%A %B %e, %Y."); //  at %H:%M:%S
+      var format = d3.time.format("%A %B %e, %Y at %H:%M local time."); //  at %H:%M:%S
       loadTime
         .text(format(currentDate));
     });
