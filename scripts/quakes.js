@@ -233,7 +233,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .append("svg:path")
           .attr("class", "country")
           .attr("d", clip);
-                
+
       function processQuakes(collection) {
               console.log("Processing quakes...");
               quakes = svg.selectAll("quakes")
@@ -243,11 +243,15 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     .append("svg:circle")
                     .on("mouseover", function(d) {
                         // First unhighlight the rest of quakes
-                        quakes.attr("stroke", "none");
+                        quakes
+                          .attr("stroke", "#aaa")
+                          .attr("stroke-width", 1)
+
                         element = d3.select(this);
                         element
                             .attr("stroke", highlightColor)
                             .attr("stroke-width", 2);
+
                         var quakeDate = new Date(d.properties.time * 1000);
                         quakeText
                             .attr("href", d.properties.url)
@@ -268,6 +272,8 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
 
                     })
                     .attr("class", "quake")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
                     .attr("fill", function(d) {
                         return richterColors(d.properties.mag);
                     })
@@ -283,7 +289,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              loaded = true;
              refresh();
           }
-        
+
       if (useAPI) {
           console.log("Using JSONP...");
           // Supports multiple URLs with JSONP
@@ -322,7 +328,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
       } else {
           console.log("Using JSON...");
           // Supports only a single URL with JSON
-          d3.json(earthQuakesJSON[0], processQuakes(collection));  
+          d3.json(earthQuakesJSON[0], processQuakes(collection));
       }
 
       // Add the blank quake outline
