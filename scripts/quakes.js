@@ -306,7 +306,11 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           var completeAjaxRequests = 0;
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
               console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");
-              $.ajax({
+
+              // The issue with this code is that you can't abort JSONP requests :(
+              // Consider investigating jQuery-JSONP plug-in
+              // Or this solution: http://stackoverflow.com/questions/6472509/abort-jsonp-ajax-request-with-jquery
+              jQuery.ajax({
                   url: earthQuakesJSON[eqi],
                   dataType: 'jsonp',
                   jsonpCallback: 'multiHelper',
