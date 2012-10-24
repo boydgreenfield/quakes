@@ -244,13 +244,11 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     .on("mouseover", function(d) {
                         // First unhighlight the rest of quakes
                         quakes
-                          .attr("stroke", "#aaa")
-                          .attr("stroke-width", 1)
+                          .attr("class", "quake");
 
                         element = d3.select(this);
                         element
-                            .attr("stroke", highlightColor)
-                            .attr("stroke-width", 2);
+                            .attr("class", "quake-selected");
 
                         var quakeDate = new Date(d.properties.time * 1000);
                         quakeText

@@ -36,13 +36,13 @@ a {
 }
 
 #main-window {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 50px;
-    float: left;
-    position: absolute;
+//    float: left;
+//    position: absolute;
     height: 100%;
-    width: 100%;
+    width: 1200px;
 }
 
 #globe {
@@ -51,6 +51,7 @@ a {
     float: left;
     pointer-events: all;
     background-color: $background;
+    width: 650px;
 }
 
 .globe-outline {
@@ -68,7 +69,7 @@ a {
 }
 
 #resume {
-    position: absolute;
+    position: relative;
     top: 35px;
     left: 35px;
     width: 60px;
@@ -188,8 +189,13 @@ a {
 
 .quake {
 //    fill: #fff;
-    stroke: black;
-    stroke-width: 3px;
+    stroke: #ccc;
+    stroke-width: 1px;
+}
+
+.quake-selected {
+    stroke: #46422C;
+    stroke-width: 2px;
 }
 
 path {

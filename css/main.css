@@ -11,20 +11,19 @@ a {
   text-decoration: none; }
 
 #main-window {
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 50px;
-  float: left;
-  position: absolute;
   height: 100%;
-  width: 100%; }
+  width: 1200px; }
 
 #globe {
   margin-left: 0px;
   margin-right: auto;
   float: left;
   pointer-events: all;
-  background-color: #f9f6f5; }
+  background-color: #f9f6f5;
+  width: 650px; }
 
 .globe-outline {
   fill: #f9f6f5;
@@ -37,7 +36,7 @@ a {
   fill: #c2cdd8; }
 
 #resume {
-  position: absolute;
+  position: relative;
   top: 35px;
   left: 35px;
   width: 60px;
@@ -117,6 +116,14 @@ a {
   margin: 0px;
   font-size: 9pt;
   color: #a0a0a0; }
+
+.quake {
+  stroke: #ccc;
+  stroke-width: 1px; }
+
+.quake-selected {
+  stroke: #46422C;
+  stroke-width: 2px; }
 
 path {
   fill: #f00;
