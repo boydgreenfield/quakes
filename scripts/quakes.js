@@ -1,6 +1,8 @@
 function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
+
+    var debug = false;
     var feature;
     var quakes;
     var stopRotating = false;
@@ -8,8 +10,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
 
     // Define origin and get ready to roll
     var origin = [-71.03, 25.37],
-//        origin = [-71.03, 42.37],
-        // velocity = [0.0018, 0.0006];
         velocity = [0.0040, 0.0000];
 
     var projection = d3.geo.azimuthal()
@@ -22,16 +22,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     var circle = d3.geo.circle()
             .origin(projection.origin());
 
-
-    // TODO fix d3.geo.azimuthal to be consistent with scale
-    // var scale = {
-    //   orthographic: windowDim/2,
-    //   stereographic: windowDim/2,
-    //   gnomonic: windowDim/2,
-    //   equidistant: (windowDim/2) / Math.PI * 2,
-    //   equalarea: (windowDim/2) / Math.SQRT2
-    // };
-
     // Generates path function() for creating svg paths
     var path = d3.geo.path()
         .projection(projection);
@@ -39,7 +29,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     // Define movement functions in advance of drawing SVG
     var m0,
         o0;
-
 
     function mousedown() {
       m0 = [d3.event.pageX, d3.event.pageY];
@@ -210,7 +199,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         .attr("height", (windowDim + paddingDim))
         .on("mousedown", mousedown);
 
-
     // Now add a border circle
     svg.selectAll("circle")
         .data([0])
@@ -223,7 +211,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         .attr("cx", ((windowDim+paddingDim)/2))
         .attr("cy", ((windowDim+paddingDim)/2));
 
-
     // Load the GEOJSON data for the countries
     d3.json(countriesJSON, function(collection) {
       feature = svg.selectAll("path")
@@ -235,11 +222,10 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           .attr("d", clip);
 
       function processQuakes(collection) {
-              console.log("Processing quakes...");
+              if (debug) {console.log("Processing quakes...");}
               quakes = svg.selectAll("quakes")
                     .data(collection.features)
                     .enter()
-                    // .insert('svg:circle', 'path')
                     .append("svg:circle")
                     .on("mouseover", function(d) {
                         // First unhighlight the rest of quakes
@@ -288,24 +274,37 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              refresh();
           }
 
+      // Helper functions for the JSON loading/unloading
+      function multiHelper(data) {
+          if (debug) {console.log("qCXNs was", qCXNs);}
+          if (qCXNs === null) {
+              qCXNs = data;
+          } else {
+              qCXNs.features = qCXNs.features.concat(data.features);
+          }
+          if (debug) {console.log("qCXNs is", qCXNs);}
+      }
+
+      function ajaxHelper(data) {
+          multiHelper(data);
+          completeAjaxRequests = completeAjaxRequests + 1;
+          if (debug) {console.log("completeAjaxRequests =", completeAjaxRequests);}
+          if (completeAjaxRequests === (requestsToComplete)) {
+              if (debug) {console.log("processing...");}
+              if (debug) {console.log(qCXNs);}
+              processQuakes(qCXNs);
+          }
+      }
+
       if (useAPI) {
-          console.log("Using JSONP...");
+          if (debug) {console.log("Using JSONP...");}
           // Supports multiple URLs with JSONP
           var qCXNs = null;
-          function multiHelper(data) {
-              console.log("qCXNs was", qCXNs);
-              if (qCXNs === null) {
-                  qCXNs = data;
-              } else {
-                  qCXNs.features = qCXNs.features.concat(data.features);
-              }
-              console.log("qCXNs is", qCXNs);
-          }
-
           var requestsToComplete = earthQuakesJSON.length;
           var completeAjaxRequests = 0;
+
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
-              console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");
+              if (debug) {console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");}
 
               // The issue with this code is that you can't abort JSONP requests :(
               // Consider investigating jQuery-JSONP plug-in
@@ -315,20 +314,11 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   dataType: 'jsonp',
                   jsonpCallback: 'multiHelper',
                   data: '',
-                  success: function(data) {
-                      multiHelper(data);
-                      completeAjaxRequests = completeAjaxRequests + 1;
-                      console.log("completeAjaxRequests =", completeAjaxRequests);
-                      if (completeAjaxRequests === (requestsToComplete)) {
-                          console.log("processing...");
-                          console.log(qCXNs);
-                          processQuakes(qCXNs);
-                      }
-                  }
+                  success: ajaxHelper
               });
           }
       } else {
-          console.log("Using JSON...");
+          if (debug) {console.log("Using JSON...");}
           // Supports only a single URL with JSON
           d3.json(earthQuakesJSON[0], processQuakes(collection));
       }
@@ -405,34 +395,19 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
             .endAngle(function(d) {return (Math.PI * 0.85);})
             .innerRadius(function(d) {return innerR;})
             .outerRadius(function(d) {return outerR;});
-            // .startAngle(function(d) { return d.x; })
-             // .endAngle(function(d) { return d.x + d.dx; })
-             // .innerRadius(function(d) { return Math.sqrt(d.y); })
-             // .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
         svg.selectAll("bounding-arc")
             .data([1])
             .enter()
             .insert("svg:path", "circle")
-            // .append("svg:path")
             .attr("transform", ("translate(" + 325 + ", " + 325 + ")"))
             .attr("class", "bounding-arc")
             .attr("d", arc);
     }
 
-
-
-
     // Then allow the window to get moved around
     d3.select(window)
         .on("mousemove", mousemove)
         .on("mouseup", mouseup);
-
-
-    // This is for the selection...
-    // d3.select("select").on("change", function() {
-    //   projection.mode(this.value).scale(scale[this.value]);
-    //   refresh(750);
-    // });
 
 }
