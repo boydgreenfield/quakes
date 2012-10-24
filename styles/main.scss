@@ -99,22 +99,22 @@ a {
 #titling {
     margin-top: 15px;
     float: top;
-    font-size: 20pt;
+    font-size: 1.67em;
 }
 
 #main-text {
-    font-size: 12pt;
+    font-size: 1em;
     float: bottom;
 }
 
 #main-text h2 {
-    font-size: 16pt;
+    font-size: 1.33em;
     margin-top: 18px;
     margin-bottom: 15px;
 }
 
 #data-text {
-    font-size: 11pt;
+    font-size: 0.9em;
 //    padding-top: 10px;
     margin-bottom: 25px;
 }
@@ -175,7 +175,7 @@ a {
 }
 
 #key h2 {
-//    font-size: 14pt;
+//    font-size: 1.15em;
 //    text-align: center;
 //    margin: 0px;
 //    padding-top: 10px;
@@ -183,7 +183,7 @@ a {
 
 #key p {
     margin: 0px;
-    font-size: 9pt;
+    font-size: 0.75em;
     color: $text-color-light;
 }
 
@@ -217,7 +217,7 @@ path.country {
 footer {
     color: $text-color-light;
     font-family: lato, serif;
-    font-size: 9pt;
+    font-size: 0.75em;
     position: fixed;
     bottom: 10px;
     display: block;
