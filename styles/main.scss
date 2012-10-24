@@ -10,13 +10,9 @@ $background: #f9f6f5;
 $text-color: #2A281B;
 $text-color-light: #A0A0A0;
 $text-color-medium: #656565;
-//$link-color: #0F5272;
 $link-color: #026594;
 $globe-border: #A9B4C0;
-//$arc-border: #EBEFF3;
 $arc-border: #C2CDD8;
-
-//$link-color: #1C4E66;
 
 
 // Now the scss
@@ -39,8 +35,6 @@ a {
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
-//    float: left;
-//    position: absolute;
     height: 650px;
     width: 1200px;
 }
@@ -58,14 +52,12 @@ a {
     fill: $background;
     fill-opacity: 1.0;
     stroke: $globe-border;
-//    stroke: red;
     stroke-width: 3;
 }
 
 .bounding-arc {
     stroke: none;
     fill: $arc-border;
-//    stroke-width: 3;
 }
 
 #resume {
@@ -115,7 +107,6 @@ a {
 
 #data-text {
     font-size: 0.9em;
-//    padding-top: 10px;
     margin-bottom: 25px;
 }
 
@@ -124,33 +115,21 @@ a {
     height: 60px;
 }
 
-#rollover p {
-//    font-style: normal;
-}
-
 #sample-quake {
     margin-top: 20px;
     display: block;
     float: left;
     width: 50px;
     height: 50px;
-//    background-color: green;
 }
 
 .sample-quake {
-//    fill: #C9C9C9;
     stroke: #A0A0A0;
     stroke-width: 2;
 }
 
 .sample-quake-text {
-//    font-style: italic;
     color: $text-color-medium;
-}
-
-.true-quake-text {
-//    font-style: normal;
-    // Optional
 }
 
 #current-quake {
@@ -158,7 +137,6 @@ a {
     margin-top: 20px;
     padding-top: 6px;
     padding-left: 8px;
-//    background-color: red;
     float: left;
     height: 50px;
     width: 400px;
@@ -167,18 +145,10 @@ a {
 #key {
     display: block;
     margin-top: 45px;
-//    padding-top: 30px;
     width: 400px;
     margin-left: 50px;
     margin-right: 50px;
     text-align: center;
-}
-
-#key h2 {
-//    font-size: 1.15em;
-//    text-align: center;
-//    margin: 0px;
-//    padding-top: 10px;
 }
 
 #key p {
@@ -188,7 +158,6 @@ a {
 }
 
 .quake {
-//    fill: #fff;
     stroke: #ccc;
     stroke-width: 1px;
 }
