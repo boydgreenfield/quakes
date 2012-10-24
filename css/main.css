@@ -14,7 +14,7 @@ a {
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
-  height: 100%;
+  height: 650px;
   width: 1200px; }
 
 #globe {
@@ -142,7 +142,7 @@ footer {
   color: #a0a0a0;
   font-family: lato, serif;
   font-size: 9pt;
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   display: block;
   text-align: center;
