@@ -59,7 +59,7 @@
 <script type="text/javascript">
     // from Mike Bostock's 10-18-11 talk: https://github.com/mbostock/d3/blob/gh-pages/talk/20111018/world-countries.json
     var countriesJSON = "data/worldcountries.geo.json";
-    var earthQuakesJSON = ["data/major_earthquakes_last_month.json"];
+    // var earthQuakesJSON = ["data/major_earthquakes_last_month.json"];
     var windowDim = 600;
     var paddingDim = 50;
     var id = "#globe";
@@ -89,12 +89,12 @@
     // var highlightColor = "yellow";
     var highlightColor = "#46422C";
     var sampleQuakeId = "#sample-quake";
-    var useAPI = false;
+    var useAPI = true;
     var minMag = 5.5;
     var currentDate = new Date().valueOf();
     var dateDiff = 1000 * 60 * 60 * 24 * 30; // 30 days
     var newDate = new Date(currentDate - dateDiff).valueOf();
-    var minSig = 650;
+    var minSig = 550;
 
     var earthQuakesJSON1 = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" +
                           "&minEventMagnitude=" + "2.0" +
@@ -108,6 +108,7 @@
                           "&minSignificance=" + 0 +
                           "&callback=processQuakes");
 
+    var earthQuakesJSON = [earthQuakesJSON1];
     // var earthQuakesJSON = [earthQuakesJSON1, earthQuakesJSON2]; // significant events (650+) 5.5+
 
     drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
