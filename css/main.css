@@ -138,6 +138,13 @@ path.country {
   fill: #CED3D8;
   stroke: #fff; }
 
+#tweet {
+  position: absolute;
+  right: 0.7em;
+  top: 0.7em;
+  font-size: 1.4em;
+  color: silver; }
+
 footer {
   color: #a0a0a0;
   font-family: lato, serif;

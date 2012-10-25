@@ -8,6 +8,7 @@ $darker-gray: #A0A0A0;
 // Functional colors
 $background: #f9f6f5;
 $text-color: #2A281B;
+$text-color-very-light: #C0C0C0;
 $text-color-light: #A0A0A0;
 $text-color-medium: #656565;
 $link-color: #026594;
@@ -181,6 +182,14 @@ path.quake {
 path.country {
     fill: #CED3D8;
     stroke: #fff;
+}
+
+#tweet {
+    position: absolute;
+    right: 0.7em;
+    top: 0.7em;
+    font-size: 1.4em;
+    color: $text-color-very-light;
 }
 
 footer {
