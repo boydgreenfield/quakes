@@ -1,3 +1,5 @@
+// Initial code modified from Mike Bostock's example at: http://mbostock.github.com/d3/talk/20111018/azimuthal.html
+// Code for mouse movements in particular is nearly identical
 function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
