@@ -4,7 +4,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
 
-    var debug = false;
+    var debug = true;
     var feature;
     var quakes;
     var stopRotating = false;
@@ -276,27 +276,37 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
              refresh();
           }
 
-      // Helper functions for the JSON loading/unloading
-      function multiHelper(data) {
-          if (debug) {console.log("qCXNs was", qCXNs);}
+      function ajaxHelper(data) {
+          completeAjaxRequests = completeAjaxRequests + 1;
+          if (debug) {
+              console.log("Successful Ajax request.")
+              console.log("completeAjaxRequests =", completeAjaxRequests);
+              console.log("requestNumber =", this.requestNumber);
+              console.log("Requests to complete = ", requestsToComplete);
+              console.log("qCXNs was", qCXNs);
+          }
+
           if (qCXNs === null) {
               qCXNs = data;
           } else {
               qCXNs.features = qCXNs.features.concat(data.features);
           }
-          if (debug) {console.log("qCXNs is", qCXNs);}
-      }
 
-      function ajaxHelper(data) {
-          multiHelper(data);
-          completeAjaxRequests = completeAjaxRequests + 1;
-          if (debug) {console.log("completeAjaxRequests =", completeAjaxRequests);}
+          if (debug) {
+              console.log("qCXNs is", qCXNs);
+              console.log("Request complete");
+          }
+
           if (completeAjaxRequests === (requestsToComplete)) {
               if (debug) {console.log("processing...");}
               if (debug) {console.log(qCXNs);}
               processQuakes(qCXNs);
+          } else {
+              console.log("Returning...");
+              return null;
           }
       }
+
 
       if (useAPI) {
           if (debug) {console.log("Using JSONP...");}
@@ -304,6 +314,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           var qCXNs = null;
           var requestsToComplete = earthQuakesJSON.length;
           var completeAjaxRequests = 0;
+          var requestNumber = 0;
 
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
               if (debug) {console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");}
@@ -311,14 +322,32 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               // The issue with this code is that you can't abort JSONP requests :(
               // Consider investigating jQuery-JSONP plug-in
               // Or this solution: http://stackoverflow.com/questions/6472509/abort-jsonp-ajax-request-with-jquery
+              // Here's more useful code: http://stackoverflow.com/questions/10024469/whats-the-best-way-to-retry-an-ajax-request-on-failure-using-jquery
               jQuery.ajax({
                   url: earthQuakesJSON[eqi],
                   dataType: 'jsonp',
-                  jsonpCallback: 'multiHelper',
+                  jsonpCallback: 'doNothing',
                   data: '',
-                  success: ajaxHelper
+                  requestNumber: ++requestNumber,
+                  tryCount : 0,
+                  retryLimit : 3,
+                  success: ajaxHelper,
+                  error: function(xhr, textStatus, errorThrown) {
+                      if (debug) {
+                          console.log("Function aborted, retrying for", this.requestNumber, "...");
+                          console.log("Text status is:", textStatus);
+                      }
+                      this.tryCount++;
+                      if (this.tryCount <= this.retryLimit) {
+                          //try again
+                          jQuery.ajax(this);
+                          return;
+                      }
+                      return;
+                  }
               });
           }
+
       } else {
           if (debug) {console.log("Using JSON...");}
           // Supports only a single URL with JSON
@@ -412,4 +441,9 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
         .on("mousemove", mousemove)
         .on("mouseup", mouseup);
 
+}
+
+// Function for parsing the JSONP (don't call it immediately)
+function doNothing(data) {
+    return data;
 }

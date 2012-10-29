@@ -92,7 +92,6 @@
     var arcWidth = -1;
     var startColor = "#E6D97D";
     var endColor = "#C93131";
-    // var highlightColor = "yellow";
     var highlightColor = "#46422C";
     var sampleQuakeId = "#sample-quake";
     var useAPI = true;
@@ -105,17 +104,14 @@
     var earthQuakesJSON1 = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" +
                           "&minEventMagnitude=" + "2.0" +
                           "&minEventTime=" + newDate.toString() +
-                          "&minSignificance=" + minSig.toString() +
-                          "&callback=processQuakes");
+                          "&minSignificance=" + minSig.toString());
 
     var earthQuakesJSON2 = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" +
                           "&minEventMagnitude=" + minMag.toPrecision(2) +
                           "&minEventTime=" + newDate.toString() +
-                          "&minSignificance=" + 0 +
-                          "&callback=processQuakes");
+                          "&minSignificance=" + 0);
 
-    var earthQuakesJSON = [earthQuakesJSON1];
-    // var earthQuakesJSON = [earthQuakesJSON1, earthQuakesJSON2]; // significant events (650+) 5.5+
+    var earthQuakesJSON = [earthQuakesJSON1, earthQuakesJSON2]; // significant events (650+) 5.5+
 
     drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, useAPI,
                 resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
