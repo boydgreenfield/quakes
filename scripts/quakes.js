@@ -9,7 +9,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
     var quakes;
     var stopRotating = false;
     var loaded = false;
-    var timeLoaded;
 
     // Define origin and get ready to roll
     var origin = [-71.03, 25.37],
@@ -274,7 +273,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                         return richterSize(d.properties.mag);
                     });
              loaded = true;
-             timeLoaded = Date.now()
              refresh();
           }
 
@@ -375,15 +373,18 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
       var format = d3.time.format("%A %B %e, %Y at %H:%M local time."); //  at %H:%M:%S
       loadTime
         .text(format(currentDate));
+
+      // And spin the globe
+      spin();
     });
 
     // Timer before selection changes focus
     // Now rotate the globe
     function spin() {
+        t0 = Date.now();
         origin = projection.origin();
         d3.timer(function() {
-            var t = Date.now() - timeLoaded;
-
+            var t = Date.now() - t0;
             // Don't refresh until everything is rendered... ah ha
             if (t > 500 && loaded) {
                 var o = [origin[0] + (t - 500) * velocity[0], origin[1] + (t - 500) * velocity[1]];
@@ -394,7 +395,6 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
             return stopRotating;
         });
     }
-    spin();
 
     // Add the "resume" rotation text
     var resume = d3.select(resumeId);
