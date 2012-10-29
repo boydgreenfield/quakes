@@ -4,7 +4,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                     resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
                     arcWidth, startColor, endColor, highlightColor) {
 
-    var debug = true;
+    var debug = false;
     var feature;
     var quakes;
     var stopRotating = false;
@@ -302,8 +302,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
               if (debug) {console.log(qCXNs);}
               processQuakes(qCXNs);
           } else {
-              console.log("Returning...");
-              return null;
+              return;
           }
       }
 
