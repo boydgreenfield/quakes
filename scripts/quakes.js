@@ -240,7 +240,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
 
                         var quakeDate = new Date(d.properties.time * 1000);
                         quakeText
-                            .attr("href", "http://earthquake.usgs.gov/" + d.properties.url)
+                            .attr("href", d.properties.url)
                             .attr("class", "true-quake-text")
                             .text(d.properties.mag.toString() + "-magnitude earthquake " +
                                     d.properties.place + " at " + quakeDate.toString());
