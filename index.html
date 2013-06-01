@@ -99,18 +99,21 @@
     var minMag = 5.5;
     var currentDate = new Date().valueOf();
     var dateDiff = 1000 * 60 * 60 * 24 * 30; // 30 days
-    var newDate = new Date(currentDate - dateDiff).valueOf();
+    var newDate = new Date(currentDate - dateDiff).toISOString();
     var minSig = 550;
 
-    var earthQuakesJSON1 = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" +
-                          "&minEventMagnitude=" + "2.0" +
-                          "&minEventTime=" + newDate.toString() +
-                          "&minSignificance=" + minSig.toString());
 
-    var earthQuakesJSON2 = ("http://comcat.cr.usgs.gov/earthquakes/feed/search.php?format=geojsonp" +
-                          "&minEventMagnitude=" + minMag.toPrecision(2) +
-                          "&minEventTime=" + newDate.toString() +
-                          "&minSignificance=" + 0);
+    var earthQuakesJSON1 = ("http://comcat.cr.usgs.gov/fdsnws/event/1/query?format=geojson" +
+                          "&eventtype=earthquake" +
+                          "&minmagnitude=" + "2.0" +
+                          "&starttime=" + newDate +
+                          "&minsig=" + minSig.toString());
+
+    var earthQuakesJSON2 = ("http://comcat.cr.usgs.gov/fdsnws/event/1/query?format=geojson" +
+                          "&eventtype=earthquake" +
+                          "&minmagnitude=" + minMag.toPrecision(2) +
+                          "&starttime=" + newDate +
+                          "&minsig=" + 0);
 
     var earthQuakesJSON = [earthQuakesJSON1, earthQuakesJSON2]; // significant events (650+) 5.5+
 

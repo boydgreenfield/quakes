@@ -315,6 +315,8 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
           var completeAjaxRequests = 0;
           var requestNumber = 0;
 
+          console.log(earthQuakesJSON);
+
           for (var eqi = 0; eqi < earthQuakesJSON.length; eqi++) {
               if (debug) {console.log("Processing", eqi+1, "of", earthQuakesJSON.length, "API calls");}
 
@@ -330,6 +332,7 @@ function drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON, us
                   requestNumber: ++requestNumber,
                   tryCount : 0,
                   retryLimit : 3,
+                  cache : true,
                   success: ajaxHelper,
                   error: function(xhr, textStatus, errorThrown) {
                       if (debug) {
